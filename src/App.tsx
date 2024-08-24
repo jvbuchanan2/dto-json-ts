@@ -1,26 +1,33 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {Api} from "./Api";
 
-function App() {
+
+
+// This should be in a different file.
+export const MyApi = new Api({
+  baseURL: 'https://fakerestapi.azurewebsites.net'
+});
+
+export default function App() {
+
+  async function sendMyRequest() {
+    const response = await MyApi.api
+    .v1ActivitiesCreate({
+      id: 1,
+      dueDate: new Date().toISOString(),
+      completed: true,
+      title: 'Chop down the cherry tree.'
+    });
+    console.log(response.data);
+  }
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Welcome to my Web Request Demo</h1>
+      <button onClick={() => sendMyRequest()}>Send my POST request</button>
     </div>
   );
 }
 
-export default App;
+
